@@ -1,20 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  experimental: {
-    agentFeedback: true,
+  output: "export",           // Static export for cPanel deployment
+  trailingSlash: true,        // Needed for static hosting compatibility
+  images: {
+    unoptimized: true,        // Required for static export (no Image Optimization API)
   },
-  cacheComponents: true,
-  partialPrefetching: true,
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
-    },
-  },
+  // NOTE: experimental features from scaffolding removed — not needed for static export
 };
 
 export default nextConfig;

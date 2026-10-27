@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+/* ── Design Tokens ────────────────────────────────────────── */
+:root {
+  --bg:          #0B0F0E;
+  --bg-elevated: #111715;
+  --bg-secondary:#151D19;
+  --accent:      #61E6B5;
+  --accent-strong:#29C98C;
+  --text:        #F1F5F2;
+  --text-muted:  #A0ADA5;
+  --border:      #26332C;
+}
+
+@theme inline {
+  --color-bg:           var(--bg);
+  --color-bg-elevated:  var(--bg-elevated);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-accent:       var(--accent);
+  --color-accent-strong:var(--accent-strong);
+  --color-text:         var(--text);
+  --color-muted:        var(--text-muted);
+  --color-border:       var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+  min-height: 100dvh;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar            { width: 6px; }
+::-webkit-scrollbar-track      { background: var(--bg); }
+::-webkit-scrollbar-thumb      { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover{ background: var(--accent); }
+
+/* ── Focus ring ──────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Selection ───────────────────────────────────────────── */
+::selection {
+  background: rgba(97,230,181,0.2);
+  color: var(--accent);
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Utility classes ─────────────────────────────────────── */
+.section-container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-container { padding-inline: 2.5rem; }
+}
+
+@media (min-width: 1280px) {
+  .section-container { padding-inline: 3rem; }
+}
+
+/* ── Terminal cursor blink ───────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.cursor-blink { animation: blink 1.2s step-end infinite; }
+
+/* ── Subtle fade-in ──────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.6s ease forwards; }
