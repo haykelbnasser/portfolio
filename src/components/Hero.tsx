@@ -19,10 +19,19 @@ export function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Headline and CTAs */}
           <div className="lg:col-span-7 space-y-6">
-            {/* Tagline / Subtitle Pill */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#111715] border border-[#26332C] text-[#A0ADA5] text-xs font-mono tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-[#29C98C]" />
-              <span>{siteConfig.tagline}</span>
+            {/* Positioning & Tagline */}
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#111715] border border-[#26332C] text-[#61E6B5] text-xs font-mono font-semibold tracking-wider">
+                <span className="w-2 h-2 rounded-full bg-[#29C98C]" />
+                <span>
+                  {lang === "fr"
+                    ? "Développeur Hybride & Résolveur de Problèmes"
+                    : "Hybrid Developer & Problem Solver"}
+                </span>
+              </div>
+              <div className="text-[11px] font-mono text-[#A0ADA5] tracking-widest uppercase pl-1">
+                {siteConfig.tagline}
+              </div>
             </div>
 
             {/* Main Title */}

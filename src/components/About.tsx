@@ -6,7 +6,7 @@ import { translations } from "@/data/translations";
 import { User, Languages, CheckCircle, Terminal, HardDrive } from "lucide-react";
 
 export function About() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
 
   return (
     <section id="about" className="py-20 border-b border-[#26332C]">
@@ -16,7 +16,7 @@ export function About() {
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#111715] border border-[#26332C] text-xs font-mono text-[#61E6B5]">
               <User className="w-3.5 h-3.5" />
-              <span>PROFILE &amp; METHODOLOGY</span>
+              <span>{lang === "fr" ? "PROFIL & MÉTHODE" : "PROFILE & METHODOLOGY"}</span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F1F5F2] tracking-tight">
@@ -33,19 +33,25 @@ export function About() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
               <div className="p-3.5 rounded-lg border border-[#26332C] bg-[#111715]">
                 <div className="text-xs font-mono text-[#61E6B5] flex items-center gap-1.5 font-semibold mb-1">
-                  <Terminal className="w-3.5 h-3.5" /> Practical Pragmatism
+                  <Terminal className="w-3.5 h-3.5" />
+                  <span>{lang === "fr" ? "Pragmatisme Technique" : "Practical Pragmatism"}</span>
                 </div>
                 <div className="text-xs text-[#A0ADA5]">
-                  Choosing the right tool for the job over fashionable complexity.
+                  {lang === "fr"
+                    ? "Choisir l'outil adapté au besoin réel plutôt qu'une complexité inutile."
+                    : "Choosing the right tool for the job over fashionable complexity."}
                 </div>
               </div>
 
               <div className="p-3.5 rounded-lg border border-[#26332C] bg-[#111715]">
                 <div className="text-xs font-mono text-[#29C98C] flex items-center gap-1.5 font-semibold mb-1">
-                  <HardDrive className="w-3.5 h-3.5" /> Full Lifecycle Ownership
+                  <HardDrive className="w-3.5 h-3.5" />
+                  <span>{lang === "fr" ? "Maîtrise de Bout en Bout" : "Full Lifecycle Ownership"}</span>
                 </div>
                 <div className="text-xs text-[#A0ADA5]">
-                  From gathering requirements to database migrations, servers, and ongoing support.
+                  {lang === "fr"
+                    ? "De l'analyse du besoin aux bases de données, à l'hébergement et au support."
+                    : "From gathering requirements to database migrations, servers, and ongoing support."}
                 </div>
               </div>
             </div>
@@ -59,7 +65,7 @@ export function About() {
                   <Languages className="w-4 h-4 text-[#61E6B5]" />
                   <span>{t(translations.about.languagesTitle)}</span>
                 </h3>
-                <span className="text-xs font-mono text-[#A0ADA5]">CEFR Standards</span>
+                <span className="text-xs font-mono text-[#A0ADA5]">CECRL / CEFR</span>
               </div>
 
               <div className="space-y-4">
@@ -81,13 +87,15 @@ export function About() {
               {/* Education snippet */}
               <div className="pt-4 border-t border-[#26332C] space-y-2.5">
                 <div className="text-xs font-mono text-[#A0ADA5] uppercase tracking-wider">
-                  Academic Foundation
+                  {lang === "fr" ? "Parcours Académique" : "Academic Foundation"}
                 </div>
                 <div className="flex items-start gap-2.5">
                   <CheckCircle className="w-4 h-4 text-[#61E6B5] shrink-0 mt-0.5" />
                   <div>
                     <div className="text-sm font-semibold text-[#F1F5F2]">
-                      BTS – Marketing &amp; Multimédia
+                      {lang === "fr"
+                        ? "BTS – Marketing & Multimédia"
+                        : "BTS – Higher Technician in Marketing & Multimedia"}
                     </div>
                     <div className="text-xs text-[#A0ADA5] font-mono">CSFT – Tunis · 2020 — 2022</div>
                   </div>
@@ -96,7 +104,9 @@ export function About() {
                   <CheckCircle className="w-4 h-4 text-[#29C98C] shrink-0 mt-0.5" />
                   <div>
                     <div className="text-sm font-semibold text-[#F1F5F2]">
-                      Economics &amp; Management Diploma
+                      {lang === "fr"
+                        ? "Diplôme d'études secondaires – Économie & Gestion"
+                        : "High School Diploma – Economics & Management"}
                     </div>
                     <div className="text-xs text-[#A0ADA5] font-mono">Cité Khadra – Tunis · 2013 — 2018</div>
                   </div>

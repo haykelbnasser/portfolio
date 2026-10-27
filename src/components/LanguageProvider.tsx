@@ -22,6 +22,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       const next = prev === "en" ? "fr" : "en";
       if (typeof document !== "undefined") {
         document.documentElement.lang = next;
+        document.title =
+          next === "fr"
+            ? "Haykel Ben Nasser — Développeur Hybride & Résolveur de Problèmes"
+            : "Haykel Ben Nasser — Hybrid Developer & Problem Solver";
       }
       return next;
     });

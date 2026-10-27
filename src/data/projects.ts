@@ -1,6 +1,6 @@
 // ============================================================
-// PROJECT DATA — all featured and archive projects
-// Add or update projects here — UI adapts automatically
+// PROJECT DATA — 7 Featured Case Studies + Dedicated IT Section + Archive
+// Verified line-by-line against actual workspace codebases
 // ============================================================
 
 export type ProjectStatus =
@@ -17,12 +17,13 @@ export type ProjectType =
   | "experiment";
 
 export interface CaseStudy {
-  context:    { en: string; fr: string };
-  problem:    { en: string; fr: string };
-  role:       { en: string; fr: string };
-  approach:   { en: string; fr: string };
-  challenges: { en: string; fr: string };
-  evidence:   { en: string; fr: string };
+  context:      { en: string; fr: string };
+  problem:      { en: string; fr: string };
+  role:         { en: string; fr: string };
+  approach:     { en: string; fr: string };
+  challenges:   { en: string; fr: string };
+  evidence:     { en: string; fr: string };
+  architecture?: string[]; // Key verified modules/routes/tables from codebase
 }
 
 export interface Project {
@@ -41,7 +42,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  // ── FEATURED ────────────────────────────────────────────
+  // ── 1. TAYEBLI ───────────────────────────────────────────
   {
     id: "tayebli",
     title: {
@@ -49,86 +50,52 @@ export const projects: Project[] = [
       fr: "Tayebli — Plateforme de restauration B2B",
     },
     description: {
-      en: "A multi-company catering management platform built with Laravel. Employees vote on weekly menus, the superadmin manages dish collections and voting sessions, and the system generates weekly production reports for the kitchen.",
-      fr: "Une plateforme de gestion de restauration multi-entreprises construite avec Laravel. Les employés votent pour les menus hebdomadaires, le superadmin gère les collections de plats et les sessions de vote, et le système génère des rapports de production pour la cuisine.",
+      en: "Multi-company B2B catering platform built with Laravel 11, Inertia.js, and Vue 3. Supports company-specific dish folders, employee voting sessions with immutable dish snapshots, daily meal selections with dietary preferences, and daily/weekly kitchen aggregation queries.",
+      fr: "Plateforme de restauration B2B multi-entreprises construite avec Laravel 11, Inertia.js et Vue 3. Prend en charge les dossiers de plats par entreprise, les sessions de vote avec instantanés immuables, le choix des repas quotidiens avec préférences alimentaires et l'agrégation quotidienne/hebdomadaire.",
     },
-    category: { en: "Business Application", fr: "Application métier" },
+    category: { en: "B2B Web Application", fr: "Application Web B2B" },
     type: "personal",
     status: "in-development",
-    tech: ["Laravel", "PHP", "MySQL", "Vue 3", "Inertia.js", "Tailwind CSS"],
+    tech: ["Laravel 11", "PHP", "MySQL", "Vue 3", "Inertia.js", "Tailwind CSS"],
     url: "https://tayebli.tn/",
     featured: true,
     order: 1,
     caseStudy: {
       context: {
-        en: "A catering service needed a structured system to manage meal selection across multiple client companies. Each company has its own employees, voting sessions, and weekly menus. A single superadmin oversees the entire operation.",
-        fr: "Un service de restauration avait besoin d'un système structuré pour gérer la sélection des repas dans plusieurs entreprises clientes. Chaque entreprise possède ses propres employés, sessions de vote et menus hebdomadaires. Un superadmin unique supervise l'ensemble de l'opération.",
+        en: "A B2B catering operation needed a structured web platform to coordinate meal voting and daily dish ordering across multiple client companies, overseen by a central superadmin.",
+        fr: "Un service de restauration B2B avait besoin d'une plateforme structurée pour coordonner le vote des menus et la commande quotidienne de plats pour plusieurs entreprises clientes, supervisée par un superadmin central.",
       },
       problem: {
-        en: "The key design challenge was historical integrity: dish folders evolve over time, but past voting sessions must remain immutable snapshots. The system also needed to handle ties at the vote cutoff threshold and allow manual adjustments by the admin.",
-        fr: "Le défi de conception principal était l'intégrité historique : les dossiers de plats évoluent dans le temps, mais les anciennes sessions de vote doivent rester des instantanés immuables. Le système devait également gérer les égalités au seuil de coupure et permettre des ajustements manuels par l'admin.",
+        en: "Global dish folders change over time, but historical voting sessions must retain an exact snapshot of the dishes that were voted on. Additionally, the system needed to detect ties at the top-20 cutoff and allow manual superadmin adjustments before publishing the weekly menu.",
+        fr: "Les dossiers de plats évoluent dans le temps, mais les sessions de vote historiques doivent conserver un instantané exact des plats votés. Le système devait aussi détecter les égalités au seuil du top 20 et permettre des ajustements manuels par le superadmin avant de publier le menu hebdomadaire.",
       },
       role: {
-        en: "Full development — architecture, database design, backend logic, Vue 3 frontend, role-based access control, and cPanel deployment configuration.",
-        fr: "Développement complet — architecture, conception de base de données, logique backend, frontend Vue 3, contrôle d'accès basé sur les rôles et configuration du déploiement cPanel.",
+        en: "Full-stack architecture and implementation: 18 database migrations, Eloquent models, Admin & Employee controllers, Vue 3 Composition API pages via Inertia.js, and cPanel deployment helpers.",
+        fr: "Architecture et implémentation full-stack : 18 migrations de base de données, modèles Eloquent, contrôleurs Admin & Employé, pages Vue 3 Composition API via Inertia.js et utilitaires de déploiement cPanel.",
       },
       approach: {
-        en: "Laravel 11 with Inertia.js and Vue 3 for a modern SPA-like experience without a separate API. Each voting session snapshots the dish folder at the time of creation (voting_session_dishes table). The superadmin can adjust the final selection before the weekly menu is published.",
-        fr: "Laravel 11 avec Inertia.js et Vue 3 pour une expérience SPA moderne sans API séparée. Chaque session de vote capture l'état du dossier de plats au moment de sa création (table voting_session_dishes). Le superadmin peut ajuster la sélection finale avant la publication du menu hebdomadaire.",
+        en: "Built on Laravel 11 with Inertia.js and Vue 3. When a voting session starts, dishes are snapshotted into `voting_session_dishes`. Employees vote up to their limit, and `VotingResultController` ranks dishes while flagging ties at the cutoff. Once locked into `weekly_menus`, employees submit daily `meal_selections` including salt (`low`/`normal`) and spice (`high`/`normal`) preferences.",
+        fr: "Construit sous Laravel 11 avec Inertia.js et Vue 3. Lorsqu'une session de vote démarre, les plats sont copiés dans `voting_session_dishes`. Les employés votent et `VotingResultController` classe les plats tout en signalant les égalités au seuil. Une fois le menu hebdomadaire publié, les employés soumettent leurs `meal_selections` quotidiennes avec préférences de sel et d'épices.",
       },
       challenges: {
-        en: "Handling ties at the vote cutoff required a dedicated flag and admin review workflow. Multi-company data isolation was implemented at the query level throughout, not just at the UI. Meal preferences (salt/spicy) are captured per selection and aggregated for kitchen production reports.",
-        fr: "La gestion des égalités au seuil de coupure a nécessité un indicateur dédié et un flux de révision admin. L'isolation des données multi-entreprises a été implémentée au niveau des requêtes, pas seulement dans l'interface. Les préférences de repas (sel/épicé) sont capturées par sélection et agrégées pour les rapports de production cuisine.",
+        en: "Enforcing strict multi-company tenant isolation across all queries (`companies`, `voting_sessions`, `weekly_menus`, `meal_selections`) and aggregating daily dish counts broken down by salt and spicy preferences in `ReportController`.",
+        fr: "Garantir l'isolation stricte des données entre entreprises sur toutes les requêtes et agréger les quantités quotidiennes par plat ventilées par préférences de sel et de piquant dans `ReportController`.",
       },
       evidence: {
-        en: "In active development. Core voting, meal selection, and admin management workflows are implemented. Weekly email recap to the kitchen and some reporting features are in progress.",
-        fr: "En développement actif. Les flux de vote, de sélection de repas et de gestion admin sont implémentés. Le récapitulatif email hebdomadaire à la cuisine et certaines fonctionnalités de rapports sont en cours.",
+        en: "In active development. Implemented and verified in codebase: multi-company CRUD, dish folders, voting sessions, tie-detection, daily meal selection with salt/spicy options, and `ReportController` endpoints (`daily`, `weekly`, `unselected` employees) plus `SendWeeklyKitchenRecapCommand`. Production rollout is ongoing.",
+        fr: "En développement actif. Implémenté et vérifié dans le code : CRUD multi-entreprises, dossiers de plats, sessions de vote, détection d'égalités, sélection quotidienne avec options sel/épicé, endpoints `ReportController` (`daily`, `weekly`, `unselected`) et commande `SendWeeklyKitchenRecapCommand`.",
       },
+      architecture: [
+        "Admin\\CompanyController, DishController, FolderController",
+        "Admin\\VotingSessionController & VotingResultController (tie cutoff logic)",
+        "Employee\\VotingController & MealSelectionController (salt/spicy prefs)",
+        "Admin\\ReportController (daily/weekly aggregation & unselected employees)",
+        "18 migrations including audit_logs, voting_session_dishes, meal_selections",
+      ],
     },
   },
-  {
-    id: "extra-laravel",
-    title: {
-      en: "Extra App — Event Workforce & Payments",
-      fr: "Extra App — Gestion des effectifs et paiements événementiels",
-    },
-    description: {
-      en: "A Laravel internal application for managing freelance event workers ('extras'), calculating per-event primes, tracking transporter quotas and payments, and generating PDF payment reports — replacing a manual spreadsheet process.",
-      fr: "Une application Laravel interne pour gérer les travailleurs événementiels freelances ('extras'), calculer les primes par événement, suivre les quotas et paiements transporteurs, et générer des rapports PDF de paiement — remplaçant un processus manuel par tableur.",
-    },
-    category: { en: "Internal Business Application", fr: "Application métier interne" },
-    type: "internal",
-    status: "internal-tool",
-    tech: ["Laravel", "PHP", "MySQL", "Blade", "JavaScript", "PDF generation"],
-    featured: true,
-    order: 2,
-    caseStudy: {
-      context: {
-        en: "Be Magic Events employs freelance 'extra' workers for its events. Each event has different participants, activities, and transporters. The business needed a structured system to track who worked which events, calculate what each person is owed, manage transporter invoices, and generate payment documents.",
-        fr: "Be Magic Events emploie des travailleurs freelances 'extras' pour ses événements. Chaque événement a des participants, des activités et des transporteurs différents. L'entreprise avait besoin d'un système structuré pour suivre qui a travaillé quels événements, calculer ce que chaque personne doit recevoir, gérer les factures transporteurs et générer des documents de paiement.",
-      },
-      problem: {
-        en: "The previous process was manual: spreadsheets and paper documents for tracking primes, transporter quotas, and payment status. Errors and missing records were frequent. Generating monthly payment reports required significant manual effort.",
-        fr: "Le processus précédent était manuel : tableurs et documents papier pour suivre les primes, quotas transporteurs et statuts de paiement. Les erreurs et les enregistrements manquants étaient fréquents. La génération des rapports de paiement mensuels nécessitait un effort manuel important.",
-      },
-      role: {
-        en: "Full development — Laravel application architecture, database design (events, employees, activities, transporters, payments, payment archives), role-based access (superadmin/admin), batch payment processing, and PDF report generation.",
-        fr: "Développement complet — architecture de l'application Laravel, conception de la base de données (événements, employés, activités, transporteurs, paiements, archives de paiement), accès basé sur les rôles (superadmin/admin), traitement par lot des paiements et génération de rapports PDF.",
-      },
-      approach: {
-        en: "Laravel with Blade templates. The data model connects events to employees (with per-event prime amounts) and transporters (with quotas). The superadmin can run batch payment processing and generate per-employee and per-transporter reports. Payment records are archived after settlement.",
-        fr: "Laravel avec templates Blade. Le modèle de données connecte les événements aux employés (avec les montants de prime par événement) et aux transporteurs (avec les quotas). Le superadmin peut exécuter des traitements de paiement par lot et générer des rapports par employé et par transporteur. Les enregistrements de paiement sont archivés après règlement.",
-      },
-      challenges: {
-        en: "Separating active payments from archived records while maintaining full historical auditability. The batch pay-all workflow needed to be transactional — if any payment fails, none should be committed. Transporter invoices required their own tracking separate from employee primes.",
-        fr: "Séparer les paiements actifs des enregistrements archivés tout en maintenant une auditabilité historique complète. Le flux de paiement global devait être transactionnel — si un paiement échoue, aucun ne doit être validé. Les factures transporteurs nécessitaient leur propre suivi séparé des primes employés.",
-      },
-      evidence: {
-        en: "Internal tool deployed for Be Magic Events operations. Source code available in the local workspace.",
-        fr: "Outil interne déployé pour les opérations de Be Magic Events. Le code source est disponible dans l'espace de travail local.",
-      },
-    },
-  },
+
+  // ── 2. STOCKAPP ──────────────────────────────────────────
   {
     id: "stockapp",
     title: {
@@ -136,307 +103,329 @@ export const projects: Project[] = [
       fr: "StockApp — Gestion des stocks et opérations",
     },
     description: {
-      en: "A Laravel internal application for stock and inventory management. Covers suppliers, articles, departments, issue and return vouchers, purchase invoices, storage locations, and monthly activity tracking — with role-based access (admin / magasinier) and a full audit log.",
-      fr: "Une application Laravel interne pour la gestion des stocks et des opérations. Couvre les fournisseurs, articles, départements, bons de sortie et retour, factures d'achat, emplacements de stockage et suivi mensuel des activités — avec accès basé sur les rôles (admin / magasinier) et un journal d'audit complet.",
+      en: "Internal Laravel & SQLite inventory application managing stock across multiple storage locations. Features issue vouchers, return vouchers, purchase invoices, supplier/article management, role-based access (admin / magasinier), PDF voucher exports, and an action audit log.",
+      fr: "Application interne d'inventaire Laravel & SQLite gérant les stocks sur plusieurs emplacements. Inclut bons de sortie, bons de retour, factures d'achat, gestion fournisseurs/articles, accès par rôle (admin / magasinier), exports PDF et journal d'audit.",
     },
     category: { en: "Internal Business Application", fr: "Application métier interne" },
     type: "internal",
     status: "internal-tool",
-    tech: ["Laravel", "PHP", "SQLite", "Blade", "JavaScript", "Tom Select", "PDF generation"],
+    tech: ["Laravel", "PHP", "SQLite", "Blade", "JavaScript", "Tom Select", "PDF Export"],
+    featured: true,
+    order: 2,
+    caseStudy: {
+      context: {
+        en: "Be Magic Events needed an internal system to track equipment, materials, and supplies across two storage units, replacing manual stock tracking with structured issue and return vouchers.",
+        fr: "Be Magic Events avait besoin d'un système interne pour suivre les équipements, matériaux et fournitures sur deux unités de stockage, remplaçant le suivi manuel par des bons de sortie et de retour structurés.",
+      },
+      problem: {
+        en: "Equipment leaving the warehouse for events wasn't consistently reconciled upon return. The team needed clear visibility into stock movements, minimum stock alerts, lost items per employee, and distinct permissions for the storekeeper (`magasinier`) versus administrators.",
+        fr: "Le matériel sortant du dépôt pour les événements n'était pas systématiquement réconcilié au retour. L'équipe avait besoin d'une visibilité claire sur les mouvements de stock, les seuils d'alerte, les articles perdus par employé et des permissions distinctes pour le magasinier et l'administrateur.",
+      },
+      role: {
+        en: "Designed and developed the complete application: 25+ database migrations, role middleware, voucher & purchase controllers, PDF generation routes, and local WAMP deployment.",
+        fr: "Conception et développement complet de l'application : plus de 25 migrations, middleware de rôles, contrôleurs de bons et d'achats, génération de PDF et déploiement sur serveur local WAMP.",
+      },
+      approach: {
+        en: "Used Laravel with SQLite for zero-configuration local database portability, and Tom Select for fast searchable article/supplier dropdowns. Issue vouchers (`issue_vouchers`) link items to events, storage locations,activities, and employees. Return vouchers (`return_vouchers`) reconcile returned quantities.",
+        fr: "Utilisation de Laravel avec SQLite pour la portabilité locale et Tom Select pour les listes déroulantes recherchables. Les bons de sortie (`issue_vouchers`) lient les articles aux événements, dépôts, activités et employés. Les bons de retour (`return_vouchers`) réconcilient les quantités retournées.",
+      },
+      challenges: {
+        en: "Maintaining stock accuracy across multiple storage locations (`article_storage` pivot) and protecting destructive actions with an admin-only gate, deletion password verification, and an `ActivityLog` model recording user actions.",
+        fr: "Maintenir l'exactitude des stocks entre plusieurs emplacements (`article_storage`) et protéger les suppressions par un contrôle d'accès admin, un mot de passe de suppression et un modèle `ActivityLog` enregistrant les actions.",
+      },
+      evidence: {
+        en: "Implemented and deployed internally at Be Magic Events. Verified in codebase: `VoucherController` (issue/return + PDF download), `PurchaseController`, `StorageController`, `ReportController` (`purchases` & `stock`), `EmployeeController::downloadLostItemsPdf`, and `ActivityLog` (`/admin/audit`).",
+        fr: "Implémenté et déployé en interne chez Be Magic Events. Vérifié dans le code : `VoucherController` (sortie/retour + export PDF), `PurchaseController`, `StorageController`, `ReportController` (`purchases` & `stock`), `EmployeeController::downloadLostItemsPdf` et `ActivityLog` (`/admin/audit`).",
+      },
+      architecture: [
+        "VoucherController (createIssue, storeIssue, createReturn, downloadIssuePdf, downloadReturnPdf)",
+        "PurchaseController & SupplierController (purchase_invoices & items)",
+        "ArticleController & StorageController (multi-storage stock tracking & stock_min)",
+        "EmployeeController::downloadLostItemsPdf (lost items PDF per employee)",
+        "ActivityLog model & /admin/audit route with can:admin-only middleware",
+      ],
+    },
+  },
+
+  // ── 3. EXTRA APP (LARAVEL) ───────────────────────────────
+  {
+    id: "extra-laravel",
+    title: {
+      en: "Extra App — Event Workforce, Bonuses & Transporter Payments",
+      fr: "Extra App — Gestion des Primes Événementielles & Transporteurs",
+    },
+    description: {
+      en: "Internal Laravel application built to manage event workers ('extras'), calculate per-event employee bonuses, track advances, manage transporter event quotas/payments, run batch monthly settlements, and generate payment reports.",
+      fr: "Application Laravel interne conçue pour gérer les travailleurs événementiels ('extras'), calculer les primes par événement, suivre les acomptes, gérer les paiements des transporteurs, exécuter des règlements mensuels par lot et générer des rapports.",
+    },
+    category: { en: "Internal Financial & Operations Tool", fr: "Outil Interne Finances & Opérations" },
+    type: "internal",
+    status: "internal-tool",
+    tech: ["Laravel", "PHP", "MySQL", "Blade", "JavaScript"],
     featured: true,
     order: 3,
     caseStudy: {
       context: {
-        en: "Be Magic Events required a structured way to manage physical inventory — materials, equipment, and supplies used for events. Stock needed to be tracked across multiple storage locations, with a clear record of what was issued, what was returned, and what was purchased.",
-        fr: "Be Magic Events avait besoin d'un moyen structuré pour gérer l'inventaire physique — matériaux, équipements et fournitures utilisés pour les événements. Le stock devait être suivi dans plusieurs emplacements de stockage, avec un enregistrement clair de ce qui a été sorti, retourné et acheté.",
+        en: "Be Magic Events works with freelance staff ('extras') and external transporters across dozens of events. Each event involves different personnel, custom per-event bonus rates, employee advances, and transporter fees.",
+        fr: "Be Magic Events travaille avec des collaborateurs événementiels ('extras') et des transporteurs externes. Chaque événement implique différents intervenants, des tarifs de primes spécifiques, des acomptes et des frais de transport.",
       },
       problem: {
-        en: "Without a dedicated system, stock movements were tracked manually. Knowing current stock levels, who issued what, and reconciling purchases against usage was error-prone. The system also needed to handle two user roles: an admin with full access and a magasinier (storekeeper) with limited rights.",
-        fr: "Sans système dédié, les mouvements de stock étaient suivis manuellement. Connaître les niveaux de stock actuels, qui a sorti quoi, et réconcilier les achats avec l'utilisation était source d'erreurs. Le système devait également gérer deux rôles : un admin avec accès complet et un magasinier avec droits limités.",
+        en: "Calculating monthly payouts across multiple events, deducting unpaid advances (`accomptes`), and tracking which event participations were pending (`attente`) versus settled (`payé`) was error-prone when done in spreadsheets.",
+        fr: "Calculer les paiements mensuels sur plusieurs événements, déduire les acomptes non payés et suivre quelles participations étaient en `attente` ou `payé` était source d'erreurs sur tableur.",
       },
       role: {
-        en: "Full development — Laravel application with SQLite database, role-based access control, issue/return voucher system with PDF download, purchase invoice tracking, multi-location storage, activity management, and employee lost-items reporting.",
-        fr: "Développement complet — application Laravel avec base de données SQLite, contrôle d'accès basé sur les rôles, système de bons de sortie/retour avec téléchargement PDF, suivi des factures d'achat, stockage multi-emplacements, gestion des activités et rapport des articles perdus par employé.",
+        en: "Built Both the original legacy PHP/WAMP version and the modernized Laravel application (`EventController`, `PaymentController`, `TransporterController`, `ReportController`, and `PaymentArchive`).",
+        fr: "Développement de la version initiale PHP/WAMP puis de l'application Laravel modernisée (`EventController`, `PaymentController`, `TransporterController`, `ReportController` et `PaymentArchive`).",
       },
       approach: {
-        en: "Laravel with SQLite for a self-contained deployment requiring no separate database server. Tom Select provides enhanced dropdowns for article and supplier search. Vouchers are modelled as documents with line items, mirroring real paper workflows. An activity log records all admin actions for auditability.",
-        fr: "Laravel avec SQLite pour un déploiement autonome ne nécessitant pas de serveur de base de données séparé. Tom Select fournit des listes déroulantes améliorées pour la recherche d'articles et de fournisseurs. Les bons sont modélisés comme des documents avec des lignes, reproduisant les flux de travail papier réels. Un journal d'activité enregistre toutes les actions admin pour l'auditabilité.",
+        en: "Events link to employees and transporters via pivot tables storing per-event `price` and payment `state` (`attente` / `payé`). Superadmins can filter reports by month or year (`reports/employee` and `reports/transporter`) and trigger `payAll` or batch settlements (`payments/batch`) protected by an action password middleware.",
+        fr: "Les événements sont liés aux employés et transporteurs via des tables pivots stockant le tarif (`price`) et l'état (`attente` / `payé`). Le superadmin peut filtrer les rapports par mois ou année et déclencher le règlement groupé (`payAll` / `payments/batch`) protégé par mot de passe.",
       },
       challenges: {
-        en: "Designing voucher line-item creation to work smoothly as a single-page form while keeping the data model normalized. Stock minimum thresholds needed to trigger low-stock visibility on the dashboard without complex background jobs. The deletion password policy prevented accidental removal of operational records.",
-        fr: "Concevoir la création de lignes de bons pour fonctionner de manière fluide comme un formulaire d'une seule page tout en maintenant le modèle de données normalisé. Les seuils minimaux de stock devaient déclencher la visibilité de stock bas sur le tableau de bord sans tâches d'arrière-plan complexes. La politique de mot de passe de suppression empêchait la suppression accidentelle d'enregistrements opérationnels.",
+        en: "Ensuring that settling an employee's monthly events simultaneously marks pending advances as paid and writes immutable records into `payment_archives` with invoice numbers and event dates.",
+        fr: "S'assurer que le règlement mensuel d'un employé marque simultanément ses acomptes en attente comme payés et crée des enregistrements d'archive dans `payment_archives` avec numéro de facture et date d'événement.",
       },
       evidence: {
-        en: "Internal tool built for Be Magic Events stock operations. Source code available in the local workspace.",
-        fr: "Outil interne construit pour les opérations de stock de Be Magic Events. Le code source est disponible dans l'espace de travail local.",
+        en: "Deployed internally on local server infrastructure for Be Magic Events operations. Verified in codebase (`extra_laravel` and legacy `extra`).",
+        fr: "Déployé en interne sur l'infrastructure locale pour les opérations de Be Magic Events. Vérifié dans le code source (`extra_laravel` et version `extra`).",
       },
+      architecture: [
+        "EventController, EmployeeController, ActivityController, TransporterController",
+        "PaymentController (advances, archive, storeArchive, batchView, processBatch)",
+        "ReportController (employee & transporter monthly/yearly aggregation + payAll)",
+        "Middleware: role:superadmin & action.password protection",
+      ],
     },
   },
+
+  // ── 4. CLOCK-IN / POINTAGE ───────────────────────────────
   {
     id: "bemagic-pointage",
     title: {
-      en: "Clock-In System — Employee Attendance",
-      fr: "Système de Pointage — Présence des employés",
+      en: "Clock-In System — QR & GPS Employee Attendance",
+      fr: "Système de Pointage — Présence Employés par QR & GPS",
     },
     description: {
-      en: "A React + Supabase web application for employee attendance tracking. Employees clock in via QR code scan with GPS capture. Admins get a real-time dashboard, configurable schedules, offsite event management, and monthly PDF/CSV reports.",
-      fr: "Une application web React + Supabase pour le suivi de présence des employés. Les employés pointent via scan de QR code avec capture GPS. Les admins disposent d'un tableau de bord en temps réel, de plannings configurables, de gestion d'événements hors-site et de rapports PDF/CSV mensuels.",
+      en: "React 18 + Supabase web application for employee attendance across three departments (Bureau, Dépôt, Atelier Menuisier). Features QR code check-in with GPS and device capture, configurable schedules, offsite event assignments, and CSV/PDF exports.",
+      fr: "Application web React 18 + Supabase de gestion des présences sur trois départements (Bureau, Dépôt, Atelier Menuisier). Inclut pointage par QR code avec capture GPS et appareil, horaires configurables, événements hors-site et exports CSV/PDF.",
     },
-    category: { en: "Internal Web Application", fr: "Application web interne" },
+    category: { en: "Internal Web Application", fr: "Application Web Interne" },
     type: "internal",
     status: "internal-tool",
-    tech: ["React 18", "Vite", "Supabase", "PostgreSQL", "Zustand", "jsPDF", "QR Code"],
+    tech: ["React 18", "Vite", "Supabase", "PostgreSQL", "Zustand", "jsPDF", "PapaParse", "QR Code"],
     featured: true,
     order: 4,
     caseStudy: {
       context: {
-        en: "Be Magic Events needed a reliable way to track attendance for three departments (Bureau, Dépôt, Atelier Menuisier). Employees work at the office or at offsite events, and the management team needed daily visibility and monthly reporting.",
-        fr: "Be Magic Events avait besoin d'un moyen fiable de suivre la présence dans trois départements (Bureau, Dépôt, Atelier Menuisier). Les employés travaillent au bureau ou lors d'événements hors-site, et l'équipe de direction avait besoin d'une visibilité quotidienne et de rapports mensuels.",
+        en: "Be Magic Events needed a mobile-friendly attendance system for employees working across three departments (`Bureau`, `Dépôt`, `Atelier Menuisier`) as well as offsite event locations.",
+        fr: "Be Magic Events avait besoin d'un système de pointage adapté au mobile pour ses employés répartis sur trois départements (`Bureau`, `Dépôt`, `Atelier Menuisier`) ainsi que sur des événements hors-site.",
       },
       problem: {
-        en: "A phone-based OTP system was rejected due to SMS costs. The solution needed to work on any device, require no app installation, and handle the difference between regular office days and offsite event assignments.",
-        fr: "Un système OTP par téléphone a été rejeté en raison des coûts SMS. La solution devait fonctionner sur tout appareil, ne nécessiter aucune installation d'application et gérer la différence entre les jours de bureau habituels et les assignations hors-site.",
+        en: "SMS OTP authentication was too costly for daily check-ins, and standard office check-in didn't account for staff dispatched to offsite team-building events.",
+        fr: "L'authentification par SMS OTP était trop coûteuse pour un usage quotidien, et le pointage classique ne prenait pas en compte les équipes envoyées en événement hors-site.",
       },
       role: {
-        en: "Full development — Supabase schema with custom pgcrypto authentication, React frontend, QR code generation per department, admin dashboard, schedule configuration, offsite event management, and CSV/PDF report generation.",
-        fr: "Développement complet — schéma Supabase avec authentification pgcrypto personnalisée, frontend React, génération de QR codes par département, tableau de bord admin, configuration des plannings, gestion des événements hors-site et génération de rapports CSV/PDF.",
+        en: "Full design and development: PostgreSQL schema & RPC functions on Supabase, custom phone + password auth via `pgcrypto`, React UI (`PointagePage`, `Dashboard`, `QrCodes`, `Schedules`, `OffsiteEvents`, `Reports`), and cPanel SPA deployment.",
+        fr: "Conception et développement complet : schéma PostgreSQL et fonctions RPC sur Supabase, authentification téléphone + mot de passe via `pgcrypto`, interface React et déploiement SPA sur cPanel.",
       },
       approach: {
-        en: "Phone number + password authentication using pgcrypto without OTP SMS costs. Three QR codes (one per department) are generated and printed. Scanning a QR code on any device opens the check-in page pre-filled with the department. GPS coordinates are captured at check-in.",
-        fr: "Authentification par numéro de téléphone + mot de passe avec pgcrypto sans frais SMS OTP. Trois QR codes (un par département) sont générés et imprimés. Scanner un QR code sur n'importe quel appareil ouvre la page de pointage pré-remplie avec le département. Les coordonnées GPS sont capturées au pointage.",
+        en: "Generated printable department QR codes (`QrCodes.jsx`). When an employee scans a code and logs in on their phone, `PointagePage.jsx` records the timestamp, GPS coordinates, and device info. The admin `Dashboard.jsx` queries daily status (`present`, `absent`, `late`, `offsite`, `departed`) and allows adding per-employee notes.",
+        fr: "Génération de QR codes imprimables par département (`QrCodes.jsx`). Lorsqu'un employé scanne le code sur son téléphone, `PointagePage.jsx` enregistre l'heure, les coordonnées GPS et l'appareil. Le `Dashboard.jsx` admin affiche les statuts du jour et permet d'ajouter des notes par employé.",
       },
       challenges: {
-        en: "Designing a check-in flow that works on mobile browsers without app installation while still capturing GPS accurately. The offsite event system required a separate workflow so that employees assigned to events don't count as absent during those periods.",
-        fr: "Concevoir un flux de pointage fonctionnant sur les navigateurs mobiles sans installation d'application tout en capturant le GPS avec précision. Le système d'événements hors-site nécessitait un flux séparé pour que les employés assignés aux événements ne comptent pas comme absents pendant ces périodes.",
+        en: "Coordinating configurable department work schedules (`Schedules.jsx`) with offsite event overrides (`OffsiteEvents.jsx`) so employees on event duty are categorized accurately in monthly PDF (`jsPDF`) and CSV (`PapaParse`) reports.",
+        fr: "Coordonner les horaires configurables par département (`Schedules.jsx`) avec les événements hors-site (`OffsiteEvents.jsx`) afin que les employés en mission soient catégorisés correctement dans les rapports PDF et CSV.",
       },
       evidence: {
-        en: "Deployed on a cPanel subdomain and connected to a Supabase project. Used daily by Be Magic Events employees. Three admin email recipients receive absence/tardiness notifications.",
-        fr: "Déployé sur un sous-domaine cPanel et connecté à un projet Supabase. Utilisé quotidiennement par les employés de Be Magic Events. Trois destinataires email admin reçoivent les notifications d'absences/retards.",
+        en: "Built and packaged for cPanel subdomain hosting with a Supabase backend (`bemagic-pointage`). All admin modules (`Dashboard`, `Employees`, `QrCodes`, `Schedules`, `OffsiteEvents`, `Reports`) and PDF/CSV export utilities (`src/lib/pdf.js`, `src/lib/csv.js`) are implemented in the repository.",
+        fr: "Construit et packagé pour hébergement sur sous-domaine cPanel avec backend Supabase (`bemagic-pointage`). Tous les modules admin et utilitaires d'export PDF/CSV (`src/lib/pdf.js`, `src/lib/csv.js`) sont implémentés dans le dépôt.",
       },
+      architecture: [
+        "Admin components: Dashboard.jsx, Employees.jsx, QrCodes.jsx, Schedules.jsx, OffsiteEvents.jsx, Reports.jsx",
+        "Employee flow: LoginPage.jsx (phone + password) & PointagePage.jsx (GPS + device capture)",
+        "Export libraries: src/lib/pdf.js (jsPDF + autotable) & src/lib/csv.js (PapaParse)",
+        "Backend: supabase/schema.sql + pgcrypto custom authentication",
+      ],
     },
   },
+
+  // ── 5. BE MAGIC EVENTS WEBSITE ───────────────────────────
   {
     id: "be-magic-website",
     title: {
-      en: "Be Magic Events — Website Development & Maintenance",
-      fr: "Be Magic Events — Développement & maintenance du site web",
+      en: "Be Magic Events — Website Development & Technical SEO",
+      fr: "Be Magic Events — Développement Web & SEO Technique",
     },
     description: {
-      en: "Ongoing professional web development and maintenance of the Be Magic Events team building website. Work includes WordPress/Elementor customization, activity pages, front-end behavior, technical SEO, plugin debugging, performance and caching issues, and hosting-related troubleshooting.",
-      fr: "Développement web professionnel et maintenance continue du site web de team building Be Magic Events. Les travaux comprennent la personnalisation WordPress/Elementor, les pages d'activités, les comportements front-end, le SEO technique, le débogage de plugins, les problèmes de performance et de cache, et le dépannage lié à l'hébergement.",
+      en: "Professional development, customization, and ongoing maintenance of the Be Magic Events corporate website. Covers custom activity pages, WordPress/Elementor layouts, front-end scripts, technical SEO, caching diagnostics, and cPanel hosting management.",
+      fr: "Développement professionnel, personnalisation et maintenance continue du site corporate Be Magic Events. Couvre les pages d'activités, mises en page WordPress/Elementor, scripts front-end, SEO technique, diagnostic de cache et gestion cPanel.",
     },
-    category: { en: "Website Development & Maintenance", fr: "Développement & maintenance web" },
+    category: { en: "Corporate Website & SEO", fr: "Site Corporate & SEO" },
     type: "client",
-    status: "professional",
-    tech: ["WordPress", "Elementor", "PHP", "JavaScript", "CSS", "cPanel", "SEO"],
+    status: "live",
+    tech: ["WordPress", "Elementor", "PHP", "JavaScript", "CSS", "Technical SEO", "cPanel"],
     url: "https://bemagicteambuilding.tn/",
     featured: true,
     order: 5,
     caseStudy: {
       context: {
-        en: "Be Magic Events is a team building company operating in Tunisia. The website is a key business asset used to showcase activities and generate client inquiries. As IT Responsable, I handle ongoing development and maintenance alongside other technical responsibilities.",
-        fr: "Be Magic Events est une entreprise de team building opérant en Tunisie. Le site web est un actif commercial clé utilisé pour présenter les activités et générer des demandes clients. En tant que Responsable IT, je gère le développement continu et la maintenance parallèlement à d'autres responsabilités techniques.",
+        en: "Be Magic Events relies on its primary web presence (`bemagicteambuilding.tn`) to showcase corporate team-building activities and capture B2B client inquiries in Tunisia.",
+        fr: "Be Magic Events s'appuie sur son site principal (`bemagicteambuilding.tn`) pour présenter ses activités de team building et générer des demandes clients B2B en Tunisie.",
       },
       problem: {
-        en: "A live business website requires continuous maintenance: content updates, performance monitoring, plugin compatibility, caching configuration, SEO health, and rapid response to technical issues that affect user experience or search visibility.",
-        fr: "Un site web d'entreprise en production nécessite une maintenance continue : mises à jour de contenu, surveillance des performances, compatibilité des plugins, configuration du cache, santé SEO et réponse rapide aux problèmes techniques affectant l'expérience utilisateur ou la visibilité en recherche.",
+        en: "The website required structured activity catalogs, responsive landing pages, fast load times despite media-heavy pages, and reliable uptime on shared cPanel infrastructure.",
+        fr: "Le site nécessitait un catalogue d'activités structuré, des pages d'atterrissage responsives, des temps de chargement rapides malgré un contenu riche en médias et une disponibilité fiable sur cPanel.",
       },
       role: {
-        en: "I am responsible for the website's technical maintenance: customizing Elementor templates, developing custom PHP snippets and JavaScript behaviors, troubleshooting plugin conflicts, managing hosting configuration on cPanel, and diagnosing performance and caching issues.",
-        fr: "Je suis responsable de la maintenance technique du site : personnalisation des templates Elementor, développement de snippets PHP personnalisés et comportements JavaScript, dépannage des conflits de plugins, gestion de la configuration d'hébergement sur cPanel, et diagnostic des problèmes de performance et de cache.",
+        en: "Web Developer (2022–2023) and subsequently IT Manager & Full-Stack Developer (2024–Present) responsible for layout customization, SEO implementation, plugin debugging, and hosting operations.",
+        fr: "Développeur Web (2022–2023) puis IT Manager & Développeur Full-Stack (2024–Présent) responsable de la personnalisation, du SEO, du débogage de plugins et de l'hébergement.",
       },
       approach: {
-        en: "Working within WordPress and Elementor to customize activity pages, navigation behavior, and mobile layouts. Using browser developer tools to diagnose CSS specificity conflicts, JavaScript errors, and caching-related display inconsistencies. Coordinating with the hosting environment for Apache configuration and domain management.",
-        fr: "Travail au sein de WordPress et Elementor pour personnaliser les pages d'activités, le comportement de navigation et les mises en page mobiles. Utilisation des outils de développement du navigateur pour diagnostiquer les conflits de spécificité CSS, les erreurs JavaScript et les incohérences d'affichage liées au cache. Coordination avec l'environnement d'hébergement pour la configuration Apache et la gestion des domaines.",
+        en: "Built and refined custom Elementor templates supplemented by custom CSS and JavaScript where page-builder defaults fell short. Implemented on-page SEO best practices, structured headings, optimized image assets, and managed Apache/cPanel configurations.",
+        fr: "Création et optimisation de templates Elementor complétés par du CSS et JavaScript sur mesure. Mise en place des bonnes pratiques SEO on-page, optimisation des médias et gestion de la configuration Apache/cPanel.",
       },
       challenges: {
-        en: "Plugin updates frequently break customizations or cause visual regressions. LiteSpeed caching can serve stale content that makes recent fixes appear not to have taken effect. Diagnosing whether an issue is a code problem or a cached response requires systematic cache invalidation and testing.",
-        fr: "Les mises à jour de plugins cassent fréquemment les personnalisations ou causent des régressions visuelles. Le cache LiteSpeed peut servir du contenu obsolète qui fait paraître les correctifs récents sans effet. Diagnostiquer si un problème est lié au code ou à une réponse mise en cache nécessite une invalidation systématique du cache et des tests.",
+        en: "Resolving plugin version conflicts, preventing layout regressions across mobile breakpoints, and balancing caching rules with dynamic form and asset updates.",
+        fr: "Résoudre les conflits de versions de plugins, prévenir les régressions visuelles sur mobile et équilibrer les règles de cache avec les mises à jour dynamiques.",
       },
       evidence: {
-        en: "Professional work — live website maintained as part of my role as IT Responsable at Be Magic Events.",
-        fr: "Travail professionnel — site web en ligne maintenu dans le cadre de mon rôle de Responsable IT chez Be Magic Events.",
+        en: "Live production website associated with my verified employment at Be Magic Events.",
+        fr: "Site web en production lié à mon poste vérifié chez Be Magic Events.",
       },
     },
   },
+
+  // ── 6. APPLE BUTTER CAFE KSA ─────────────────────────────
   {
     id: "apple-butter",
     title: {
-      en: "Apple Butter Cafe KSA — Theme & Bilingual Customization",
-      fr: "Apple Butter Cafe KSA — Personnalisation thème & bilingue",
+      en: "Apple Butter Cafe KSA — Custom RTL/LTR Bilingual Theme",
+      fr: "Apple Butter Cafe KSA — Thème Bilingue Arabe RTL / Anglais",
     },
     description: {
-      en: "WordPress theme customization for a Saudi café with Arabic RTL as the primary language. Implemented an instant Arabic/English language switch that updates text direction, fonts, and layout without a page reload. Diagnosed and resolved LiteSpeed caching conflicts with Slider Revolution assets.",
-      fr: "Personnalisation de thème WordPress pour un café saoudien avec l'arabe RTL comme langue principale. Implémentation d'un interrupteur de langue arabe/anglais instantané mettant à jour la direction du texte, les polices et la mise en page sans rechargement de page. Diagnostic et résolution des conflits de cache LiteSpeed avec les assets Slider Revolution.",
+      en: "WordPress theme development and troubleshooting for a restaurant brand in Saudi Arabia. Features Arabic RTL as primary presentation, an instant Arabic/English directional switcher, custom interactive menu previews, and LiteSpeed/Slider Revolution cache debugging.",
+      fr: "Développement et dépannage de thème WordPress pour une enseigne de restauration en Arabie Saoudite. Présentation principale en arabe RTL, bascule instantanée arabe/anglais, aperçu interactif du menu et résolution de conflits de cache LiteSpeed/Slider Revolution.",
     },
-    category: { en: "WordPress Theme Customization", fr: "Personnalisation de thème WordPress" },
+    category: { en: "Custom WordPress Theme & RTL", fr: "Thème WordPress Sur Mesure & RTL" },
     type: "client",
-    status: "professional",
-    tech: ["WordPress", "PHP", "JavaScript", "CSS", "RTL", "LiteSpeed Cache", "Slider Revolution"],
+    status: "live",
+    tech: ["WordPress", "Custom Theme", "PHP", "JavaScript", "RTL/LTR CSS", "LiteSpeed Cache", "Slider Revolution"],
     url: "https://www.applebuttercafeksa.com/",
     featured: true,
     order: 6,
     caseStudy: {
       context: {
-        en: "A Saudi café needed a website that presents naturally in Arabic RTL with a seamless switch to English for international visitors. The site uses a custom WordPress theme and relies on LiteSpeed caching and Slider Revolution for the hero section.",
-        fr: "Un café saoudien avait besoin d'un site présentant naturellement en arabe RTL avec une transition transparente vers l'anglais pour les visiteurs internationaux. Le site utilise un thème WordPress personnalisé et repose sur le cache LiteSpeed et Slider Revolution pour la section héro.",
+        en: "Apple Butter Cafe KSA required a bilingual Arabic/English website tailored to customers in Saudi Arabia, defaulting to Arabic (RTL) while allowing visitors to switch seamlessly to English (LTR).",
+        fr: "Apple Butter Cafe KSA avait besoin d'un site bilingue arabe/anglais adapté au marché saoudien, s'affichant par défaut en arabe (RTL) tout en permettant de basculer instantanément en anglais (LTR).",
       },
       problem: {
-        en: "The language switch needed to change not only visible text content but also the document direction (RTL/LTR), font choices, and layout-dependent elements — instantly, without a full page reload. Additionally, Slider Revolution assets and CSS were loading inconsistently when LiteSpeed cache was active.",
-        fr: "L'interrupteur de langue devait changer non seulement le contenu textuel visible mais aussi la direction du document (RTL/LTR), les choix de polices et les éléments dépendants de la mise en page — instantanément, sans rechargement complet de la page. De plus, les assets et CSS de Slider Revolution se chargeaient de manière incohérente avec le cache LiteSpeed actif.",
+        en: "Switching between Arabic and English required flipping document direction (`dir='rtl'` / `dir='ltr'`), typography, sticky navigation alignment, and interactive menu cards without page-reload flicker. Furthermore, LiteSpeed Cache was serving inconsistent Slider Revolution and CSS assets.",
+        fr: "Le passage entre l'arabe et l'anglais nécessitait d'inverser la direction du document (`dir='rtl'` / `dir='ltr'`), la typographie, l'alignement du menu fixe et les cartes du menu sans rechargement. De plus, LiteSpeed Cache servait des assets Slider Revolution et CSS incohérents.",
       },
       role: {
-        en: "JavaScript and CSS implementation of the bilingual switch, RTL/LTR layout logic, and diagnosis of the caching/Slider Revolution conflict.",
-        fr: "Implémentation JavaScript et CSS de l'interrupteur bilingue, logique de mise en page RTL/LTR et diagnostic du conflit cache/Slider Revolution.",
+        en: "Custom WordPress theme engineering (`apple-butter-theme`), customizer settings scripting, bilingual DOM/direction switching, and caching/asset troubleshooting.",
+        fr: "Ingénierie du thème WordPress sur mesure (`apple-butter-theme`), scripts de configuration du customizer, bascule bilingue DOM/direction et dépannage du cache et des assets.",
       },
       approach: {
-        en: "The language switch uses JavaScript to toggle a class on the document root, update the lang and dir attributes, and swap text content via a centralized data structure. LiteSpeed cache was configured to exclude specific URL parameters to prevent stale slider assets.",
-        fr: "L'interrupteur de langue utilise JavaScript pour basculer une classe sur la racine du document, mettre à jour les attributs lang et dir, et échanger le contenu textuel via une structure de données centralisée. Le cache LiteSpeed a été configuré pour exclure des paramètres d'URL spécifiques afin d'éviter les assets du slider obsolètes.",
+        en: "Developed and packaged modular WordPress theme files (`functions.php`, customizer settings, sticky header CSS, and contact/menu templates) alongside Python validation scripts (`verify_all_lint.py`, `check_sticky_css.py`) to verify PHP syntax and theme mod bindings before zipping for deployment.",
+        fr: "Développement et packaging de fichiers de thème WordPress modulaires accompagnés de scripts Python de vérification (`verify_all_lint.py`, `check_sticky_css.py`) pour valider la syntaxe PHP et les champs du customizer avant déploiement.",
       },
       challenges: {
-        en: "RTL and LTR layouts differ in more than text direction: margins, padding, icon placement, and flexbox direction all need to be mirrored. The LiteSpeed/Slider Revolution issue required understanding how the cache layer interacts with dynamically loaded assets.",
-        fr: "Les mises en page RTL et LTR diffèrent davantage que la direction du texte : les marges, le rembourrage, le placement des icônes et la direction flexbox doivent tous être inversés. Le problème LiteSpeed/Slider Revolution nécessitait de comprendre comment la couche de cache interagit avec les assets chargés dynamiquement.",
+        en: "Debugging differences between cached and uncached page states under LiteSpeed Cache and ensuring Slider Revolution assets initialized properly across both RTL and LTR layouts.",
+        fr: "Déboguer les différences d'affichage entre les états mis en cache et non mis en cache sous LiteSpeed et garantir l'initialisation correcte de Slider Revolution en RTL comme en LTR.",
       },
       evidence: {
-        en: "Professional client work. Live website accessible at the URL above.",
-        fr: "Travail client professionnel. Site web en ligne accessible à l'URL ci-dessus.",
+        en: "Live client website (`applebuttercafeksa.com`) and verified theme source packages + diagnostic scripts in the local workspace.",
+        fr: "Site client en ligne (`applebuttercafeksa.com`) et packages de thème + scripts de diagnostic vérifiés dans l'espace de travail.",
       },
+      architecture: [
+        "Custom WordPress theme package (apple-butter-theme)",
+        "Instant RTL (Arabic) <-> LTR (English) direction & string switcher",
+        "Interactive bilingual menu preview & PDF menu integration",
+        "Automated PHP lint & theme-mod verification scripts",
+      ],
     },
   },
+
+  // ── 7. HUMANPOWER GROUP ──────────────────────────────────
   {
     id: "humanpower",
     title: {
-      en: "Humanpower Group — Domain Migration & Website",
-      fr: "Humanpower Group — Migration de domaine & site web",
+      en: "Humanpower Group — Domain Migration & Multi-Service Web Setup",
+      fr: "Humanpower Group — Migration de Domaine & Portail Multi-Services",
     },
     description: {
-      en: "Professional web project involving the migration of a WordPress/Elementor website from a staging subdomain to the primary domain, along with website structure and service presentation for a multi-service consultancy (Advisory, Assessment, Academy, DigiTech).",
-      fr: "Projet web professionnel impliquant la migration d'un site WordPress/Elementor d'un sous-domaine de staging vers le domaine principal, avec la structure du site et la présentation des services pour un cabinet de conseil multi-services (Advisory, Assessment, Academy, DigiTech).",
+      en: "Professional web project for a multi-service consultancy (Advisory, Assessment, Academy, DigiTech). Handled migration from a staging subdomain to the primary production domain, database URL updates, DNS/cPanel configuration, and SEO structure.",
+      fr: "Projet web professionnel pour un cabinet de conseil multi-services (Advisory, Assessment, Academy, DigiTech). Migration d'un sous-domaine vers le domaine principal, mise à jour de la base de données, configuration DNS/cPanel et structure SEO.",
     },
-    category: { en: "WordPress & Domain Migration", fr: "WordPress & Migration de domaine" },
+    category: { en: "Domain Migration & Web Delivery", fr: "Migration de Domaine & Déploiement Web" },
     type: "client",
-    status: "professional",
-    tech: ["WordPress", "Elementor", "cPanel", "DNS", "Apache"],
+    status: "live",
+    tech: ["WordPress", "Elementor", "MySQL", "cPanel", "DNS", "SEO"],
     url: "https://humanpower-group.com/",
     featured: true,
     order: 7,
     caseStudy: {
       context: {
-        en: "Humanpower Group is a multi-service consultancy that needed to transition their website from a development environment (subdomain) to their primary production domain without downtime or content loss.",
-        fr: "Humanpower Group est un cabinet de conseil multi-services qui avait besoin de faire passer son site d'un environnement de développement (sous-domaine) vers son domaine principal de production sans interruption ni perte de contenu.",
+        en: "Humanpower Group needed to launch their multi-pillar corporate website (Advisory, Assessment, Academy, DigiTech) on their primary domain after initial development on a staging subdomain, accompanied by an SEO structure review.",
+        fr: "Humanpower Group devait publier son site corporate multi-pôles (Advisory, Assessment, Academy, DigiTech) sur son domaine principal après une phase de développement sur sous-domaine, accompagné d'une structuration SEO.",
       },
       problem: {
-        en: "Domain migrations with WordPress require careful handling of serialized database references, absolute URLs, and DNS propagation timing. Elementor stores layout data that contains hardcoded URLs requiring search-and-replace operations at the database level.",
-        fr: "Les migrations de domaine WordPress nécessitent une gestion soigneuse des références de base de données sérialisées, des URL absolues et du timing de propagation DNS. Elementor stocke des données de mise en page contenant des URL codées en dur nécessitant des opérations de recherche et remplacement au niveau de la base de données.",
+        en: "Moving a WordPress/Elementor installation between domains breaks serialized PHP arrays in the database, media paths, and internal links if not migrated systematically.",
+        fr: "Déplacer une installation WordPress/Elementor d'un sous-domaine vers un domaine principal corrompt les tableaux PHP sérialisés en base de données, les chemins médias et les liens internes si la migration n'est pas rigoureuse.",
       },
       role: {
-        en: "Domain migration coordination, WordPress URL reconfiguration, DNS and cPanel configuration, and website structure verification after migration.",
-        fr: "Coordination de la migration de domaine, reconfiguration des URL WordPress, configuration DNS et cPanel, et vérification de la structure du site après migration.",
+        en: "Executed the subdomain-to-root domain migration, reconfigured cPanel and DNS records, updated serialized database references, and worked on service presentation and SEO documentation.",
+        fr: "Exécution de la migration du sous-domaine vers le domaine principal, reconfiguration cPanel et DNS, mise à jour des références sérialisées en base de données et travail sur la présentation des services et le SEO.",
       },
       approach: {
-        en: "Used Search & Replace DB tooling to update serialized URLs in the WordPress database. Verified DNS propagation and configured the cPanel hosting environment for the new primary domain. Confirmed all internal links, media references, and Elementor templates resolved correctly after migration.",
-        fr: "Utilisation d'outils Search & Replace DB pour mettre à jour les URL sérialisées dans la base de données WordPress. Vérification de la propagation DNS et configuration de l'hébergement cPanel pour le nouveau domaine principal. Confirmation que tous les liens internes, références médias et templates Elementor se résolvent correctement après migration.",
+        en: "Coordinated file transfer on cPanel, ran serialization-safe URL replacements across WordPress and Elementor metadata tables, verified SSL/DNS resolution, and audited page titles and service hierarchy.",
+        fr: "Coordination du transfert sur cPanel, remplacement sécurisé des URL dans les tables sérialisées WordPress et Elementor, vérification SSL/DNS et audit de la hiérarchie des pages.",
       },
       challenges: {
-        en: "Elementor's serialized data format makes simple text-based find-and-replace unreliable. DNS propagation windows create a period where different users see different versions of the site depending on their resolver cache.",
-        fr: "Le format de données sérialisées d'Elementor rend le simple remplacement de texte peu fiable. Les fenêtres de propagation DNS créent une période où différents utilisateurs voient différentes versions du site selon leur cache de résolveur.",
+        en: "Preventing broken Elementor widget styles and asset 404s post-migration while minimizing transition downtime.",
+        fr: "Éviter la perte de styles des widgets Elementor et les erreurs 404 sur les médias après migration tout en réduisant le temps d'indisponibilité.",
       },
       evidence: {
-        en: "Professional client work. Live website accessible at the URL above.",
-        fr: "Travail client professionnel. Site web en ligne accessible à l'URL ci-dessus.",
-      },
-    },
-  },
-  {
-    id: "it-systems",
-    title: {
-      en: "Internal IT Systems & Infrastructure",
-      fr: "Systèmes IT internes & Infrastructure",
-    },
-    description: {
-      en: "Design, configuration, and maintenance of the internal IT environment at Be Magic Events: Microsoft 365, SharePoint, Entra ID, Power Platform, OpenVPN, Cerberus FTP, WAMP, DNS, email, and cPanel hosting — connecting development work with the technical infrastructure that supports it.",
-      fr: "Conception, configuration et maintenance de l'environnement IT interne chez Be Magic Events : Microsoft 365, SharePoint, Entra ID, Power Platform, OpenVPN, Cerberus FTP, WAMP, DNS, e-mail et hébergement cPanel — connectant le travail de développement avec l'infrastructure technique qui le supporte.",
-    },
-    category: { en: "IT Infrastructure & Systems Administration", fr: "Infrastructure IT & Administration systèmes" },
-    type: "internal",
-    status: "professional",
-    tech: ["Microsoft 365", "SharePoint", "Entra ID", "Power Apps", "Power Automate", "OpenVPN", "Cerberus FTP", "WAMP", "Apache", "cPanel", "DNS"],
-    featured: true,
-    order: 7,
-    caseStudy: {
-      context: {
-        en: "As IT Responsable at Be Magic Events, I manage the technical environment that the business depends on — both the infrastructure that runs internal applications and the cloud services that connect employees and data.",
-        fr: "En tant que Responsable IT chez Be Magic Events, je gère l'environnement technique dont dépend l'entreprise — à la fois l'infrastructure qui exécute les applications internes et les services cloud qui connectent les employés et les données.",
-      },
-      problem: {
-        en: "A small business with multiple technical systems — cloud, local, and web-hosted — needs someone who can span development, administration, and troubleshooting. The challenge is maintaining reliable connectivity between these systems while supporting day-to-day operations.",
-        fr: "Une petite entreprise avec plusieurs systèmes techniques — cloud, local et hébergé web — a besoin de quelqu'un capable de couvrir le développement, l'administration et le dépannage. Le défi est de maintenir une connectivité fiable entre ces systèmes tout en supportant les opérations quotidiennes.",
-      },
-      role: {
-        en: "I configured and maintain the Microsoft 365 tenant (users, licenses, email, SharePoint), manage Entra ID for identity and access, run Power Apps/Automate workflows for business processes, maintain the WAMP local server, configure OpenVPN for remote access, manage Cerberus FTP for file distribution, and handle DNS and cPanel hosting for all company web properties.",
-        fr: "Je configure et maintiens le tenant Microsoft 365 (utilisateurs, licences, e-mail, SharePoint), gère Entra ID pour l'identité et l'accès, exécute des flux Power Apps/Automate pour les processus métier, maintiens le serveur local WAMP, configure OpenVPN pour l'accès distant, gère Cerberus FTP pour la distribution de fichiers, et gère le DNS et l'hébergement cPanel pour toutes les propriétés web de l'entreprise.",
-      },
-      approach: {
-        en: "Treating the IT environment as a system rather than a collection of separate tools. Internal PHP applications (like the Extra app and attendance system) are designed to work within the constraints of local hosting and connect where needed to cloud services. DNS and email configuration are maintained to support business operations without external dependencies where possible.",
-        fr: "Traiter l'environnement IT comme un système plutôt qu'une collection d'outils séparés. Les applications PHP internes (comme l'Extra app et le système de présence) sont conçues pour fonctionner dans les contraintes de l'hébergement local et se connecter aux services cloud si nécessaire. La configuration DNS et e-mail est maintenue pour soutenir les opérations métier sans dépendances externes si possible.",
-      },
-      challenges: {
-        en: "Email configuration and deliverability issues are a recurring challenge — SPF, DKIM, and DMARC records interact with business email reputation in ways that require careful diagnosis. Power Platform workflows have licensing and connector limitations that require workarounds for some use cases.",
-        fr: "La configuration des e-mails et les problèmes de délivrabilité sont un défi récurrent — les enregistrements SPF, DKIM et DMARC interagissent avec la réputation des e-mails d'entreprise d'une manière nécessitant un diagnostic soigneux. Les flux Power Platform ont des limitations de licences et de connecteurs qui nécessitent des solutions de contournement pour certains cas d'usage.",
-      },
-      evidence: {
-        en: "Ongoing professional responsibility as IT Responsable at Be Magic Events. These are operational systems in daily use.",
-        fr: "Responsabilité professionnelle continue en tant que Responsable IT chez Be Magic Events. Ce sont des systèmes opérationnels en usage quotidien.",
+        en: "Live website (`humanpower-group.com`) and SEO planning documentation verified in workspace.",
+        fr: "Site en ligne (`humanpower-group.com`) et documentation SEO vérifiés dans l'espace de travail.",
       },
     },
   },
 
-  // ── ARCHIVE ──────────────────────────────────────────────
-  {
-    id: "mahazshop",
-    title: { en: "Mahazshop", fr: "Mahazshop" },
-    description: {
-      en: "WordPress/WooCommerce e-commerce site. Theme transition and environment maintenance.",
-      fr: "Site e-commerce WordPress/WooCommerce. Transition de thème et maintenance d'environnement.",
-    },
-    category: { en: "E-Commerce", fr: "E-Commerce" },
-    type: "client",
-    status: "professional",
-    tech: ["WordPress", "WooCommerce", "PHP", "CSS"],
-    featured: false,
-  },
+  // ── ARCHIVE PROJECTS ─────────────────────────────────────
   {
     id: "lartiste",
     title: { en: "L'Artiste Traiteur", fr: "L'Artiste Traiteur" },
     description: {
-      en: "Website for a French-language catering company. Custom design, menu UX, and online presence.",
-      fr: "Site web pour un traiteur. Design personnalisé, UX du menu et présence en ligne.",
+      en: "Luxury dark-themed catering website and interactive digital menu built for a catering brand launched in 2026.",
+      fr: "Site web élégant au thème sombre et menu numérique interactif conçus pour un service traiteur lancé en 2026.",
     },
-    category: { en: "Website", fr: "Site web" },
+    category: { en: "Website & Menu UX", fr: "Site Web & UX Menu" },
     type: "client",
     status: "professional",
-    tech: ["HTML", "CSS", "JavaScript"],
+    tech: ["HTML", "CSS", "JavaScript", "Responsive UI"],
     featured: false,
   },
   {
     id: "les-jardins",
     title: { en: "Les Jardins du Golf", fr: "Les Jardins du Golf" },
     description: {
-      en: "Event venue website. Presentation and relevant website work.",
-      fr: "Site web pour un lieu événementiel. Présentation et travaux web associés.",
+      en: "Event venue presentation and digital menu interface.",
+      fr: "Présentation de lieu événementiel et interface de menu numérique.",
     },
-    category: { en: "Website", fr: "Site web" },
+    category: { en: "Website & Menu", fr: "Site Web & Menu" },
     type: "client",
     status: "professional",
-    tech: ["WordPress", "Elementor"],
+    tech: ["WordPress", "Elementor", "HTML/CSS"],
     featured: false,
   },
   {
     id: "mes-demarches",
     title: { en: "Mes Démarches Juridiques", fr: "Mes Démarches Juridiques" },
     description: {
-      en: "Elementor popup, mobile template, and reviews carousel customization for a French legal advisory website.",
-      fr: "Personnalisation d'une popup Elementor, d'un template mobile et d'un carrousel d'avis pour un site de conseil juridique français.",
+      en: "Elementor popup, mobile header template, and customer reviews carousel customization for a French legal assistance firm.",
+      fr: "Personnalisation de popup Elementor, d'en-tête mobile et d'un carrousel d'avis pour un cabinet français d'accompagnement juridique.",
     },
     category: { en: "WordPress Customization", fr: "Personnalisation WordPress" },
     type: "client",
@@ -445,39 +434,29 @@ export const projects: Project[] = [
     featured: false,
   },
   {
-    id: "image-optimizer",
-    title: { en: "Image Optimizer Tool", fr: "Outil d'optimisation d'images" },
+    id: "mahazshop",
+    title: { en: "Mahazshop", fr: "Mahazshop" },
     description: {
-      en: "A local tool for compressing and converting images (including WebP) to maximize quality at minimum file size for product images.",
-      fr: "Un outil local pour compresser et convertir des images (dont WebP) afin de maximiser la qualité au minimum de poids pour les images produits.",
+      en: "WordPress and WooCommerce e-commerce theme transition and environment maintenance.",
+      fr: "Transition de thème e-commerce WordPress/WooCommerce et maintenance de l'environnement.",
     },
-    category: { en: "Utility Tool", fr: "Outil utilitaire" },
-    type: "personal",
-    status: "experiment",
-    tech: ["Python", "Pillow"],
-    featured: false,
-  },
-  {
-    id: "resume-parser",
-    title: { en: "Resume Parser — Ollama OCR", fr: "Parseur de CV — Ollama OCR" },
-    description: {
-      en: "A Python pipeline using Ollama (local LLM) and Tesseract OCR to extract structured data from PDF résumés at scale and export to Excel.",
-      fr: "Un pipeline Python utilisant Ollama (LLM local) et Tesseract OCR pour extraire des données structurées depuis des CV PDF à grande échelle et les exporter en Excel.",
-    },
-    category: { en: "Automation / AI Tool", fr: "Automatisation / Outil IA" },
-    type: "internal",
-    status: "experiment",
-    tech: ["Python", "Tesseract OCR", "Ollama", "Pandas", "openpyxl"],
+    category: { en: "E-Commerce", fr: "E-Commerce" },
+    type: "client",
+    status: "professional",
+    tech: ["WordPress", "WooCommerce", "PHP", "CSS"],
     featured: false,
   },
   {
     id: "unity-escape-apps",
-    title: { en: "Escape Game & Event Dispatch Mobile Apps (P2, P5, P9)", fr: "Applications Mobiles Escape Game & Gestion Participants (P2, P5, P9)" },
-    description: {
-      en: "Mobile applications developed using Unity (P2, P5, P9) serving as interactive clues in escape game activities, alongside a mobile app for participant dispatching and activity management during events.",
-      fr: "Applications mobiles développées avec Unity (P2, P5, P9) utilisées comme indices interactifs dans l'activité Escape Game, ainsi qu'une application mobile de répartition et gestion des participants lors des événements.",
+    title: {
+      en: "Escape Game (P2, P5, P9) & Event Dispatch Mobile Apps",
+      fr: "Applications Mobiles Escape Game (P2, P5, P9) & Événements",
     },
-    category: { en: "Mobile & Game Development", fr: "Développement Mobile & Unity" },
+    description: {
+      en: "Mobile applications built with Unity (P2, P5, P9) used as interactive clues in team-building escape games, plus a participant dispatching mobile app.",
+      fr: "Applications mobiles développées sous Unity (P2, P5, P9) servant d'indices interactifs en Escape Game, ainsi qu'une application mobile de répartition des participants.",
+    },
+    category: { en: "Mobile & Unity Development", fr: "Développement Mobile & Unity" },
     type: "internal",
     status: "professional",
     tech: ["Unity", "C#", "Android", "Mobile UI"],
@@ -485,18 +464,50 @@ export const projects: Project[] = [
   },
   {
     id: "art-et-couleurs-apps",
-    title: { en: "Quotation, Production & Maintenance Systems", fr: "Systèmes de Devis, Production & Maintenance" },
-    description: {
-      en: "Internal web applications built at Art & Couleurs for quotation management, operational production tracking, and machine/vehicle maintenance scheduling.",
-      fr: "Applications web internes développées chez Art & Couleurs pour la gestion des devis, le suivi de la production opérationnelle et la maintenance des machines et véhicules.",
+    title: {
+      en: "Quotation, Production & Maintenance Web Apps",
+      fr: "Applications de Devis, Production & Maintenance",
     },
-    category: { en: "Internal Business Tools", fr: "Outils Métier Internes" },
+    description: {
+      en: "Internal PHP web applications built during my internship at Art & Couleurs for quotation management, production tracking, and machine/vehicle maintenance.",
+      fr: "Applications web PHP internes développées chez Art & Couleurs pour la gestion des devis, le suivi de production et la maintenance des machines et véhicules.",
+    },
+    category: { en: "Internal Web Tools", fr: "Outils Web Internes" },
     type: "internal",
     status: "professional",
     tech: ["PHP", "MySQL", "JavaScript", "HTML/CSS"],
     featured: false,
   },
+  {
+    id: "resume-parser",
+    title: { en: "Resume Parser — Ollama & Tesseract OCR", fr: "Extracteur de CV — Ollama & Tesseract OCR" },
+    description: {
+      en: "Resumable Python pipeline combining Tesseract OCR and local Ollama LLM inference to extract structured candidate profiles from PDF batches into Excel.",
+      fr: "Pipeline Python combinant Tesseract OCR et un modèle local Ollama pour extraire des données structurées de lots de CV PDF vers Excel.",
+    },
+    category: { en: "Automation & OCR Experiment", fr: "Automatisation & Expérimentation OCR" },
+    type: "internal",
+    status: "experiment",
+    tech: ["Python", "Tesseract OCR", "Ollama", "Pandas", "openpyxl"],
+    featured: false,
+  },
+  {
+    id: "image-optimizer",
+    title: { en: "WebP & Product Image Optimizer", fr: "Optimiseur d'Images Produits & WebP" },
+    description: {
+      en: "Utility tool built to compress and batch-convert product photos to WebP while preserving visual quality.",
+      fr: "Outil utilitaire conçu pour compresser et convertir en lot des images produits au format WebP tout en préservant la qualité visuelle.",
+    },
+    category: { en: "Developer Utility", fr: "Utilitaire Développeur" },
+    type: "personal",
+    status: "experiment",
+    tech: ["Python", "Pillow", "WebP"],
+    featured: false,
+  },
 ];
 
-export const featuredProjects = projects.filter(p => p.featured && (p.order ?? 99) <= 7).sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
-export const archiveProjects  = projects.filter(p => !p.featured || (p.order ?? 99) > 7);
+export const featuredProjects = projects
+  .filter((p) => p.featured)
+  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+
+export const archiveProjects = projects.filter((p) => !p.featured);

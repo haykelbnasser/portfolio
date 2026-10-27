@@ -8,7 +8,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { Archive } from "lucide-react";
 
 export function ArchiveProjects() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
 
   return (
     <section className="py-16 border-b border-[#26332C] bg-[#0E1311]">
@@ -17,7 +17,7 @@ export function ArchiveProjects() {
         <div className="space-y-2 mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#111715] border border-[#26332C] text-xs font-mono text-[#A0ADA5]">
             <Archive className="w-3.5 h-3.5 text-[#61E6B5]" />
-            <span>EXTENDED REPOSITORY</span>
+            <span>{lang === "fr" ? "ARCHIVE DE PROJETS" : "PROJECT ARCHIVE"}</span>
           </div>
           <h3 className="text-xl sm:text-2xl font-bold text-[#F1F5F2]">
             {t(translations.projects.archiveTitle)}

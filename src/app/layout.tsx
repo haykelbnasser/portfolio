@@ -7,13 +7,13 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Haykel Ben Nasser — Full-Stack Developer & IT Professional",
+  title: "Haykel Ben Nasser — Hybrid Developer & Problem Solver",
   description:
-    "Developer and IT professional building practical software, reliable websites, and connected technical systems — from implementation to deployment. Based in Tunisia, open to positions in France and Europe.",
+    "Full-Stack Development · Digital Solutions · IT Systems. Developer and IT professional building practical business applications, websites, and connected technical systems.",
   openGraph: {
-    title: "Haykel Ben Nasser — Developer & IT Professional",
+    title: "Haykel Ben Nasser — Hybrid Developer & Problem Solver",
     description:
-      "Full-stack development, WordPress customization, business applications, and IT infrastructure. Open to developer positions in France and Europe.",
+      "Full-Stack Development · Digital Solutions · IT Systems. Open to developer and technical positions in France and Europe.",
     type: "website",
   },
 };

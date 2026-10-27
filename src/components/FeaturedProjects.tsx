@@ -9,7 +9,7 @@ import { ProjectDetail } from "@/components/ProjectDetail";
 import { FolderGit2 } from "lucide-react";
 
 export function FeaturedProjects() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const handleOpenDetail = (id: string) => {
@@ -24,7 +24,7 @@ export function FeaturedProjects() {
         <div className="space-y-3 mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#111715] border border-[#26332C] text-xs font-mono text-[#61E6B5]">
             <FolderGit2 className="w-3.5 h-3.5" />
-            <span>PORTFOLIO SELECTION</span>
+            <span>{lang === "fr" ? "SÉLECTION DE 7 PROJETS" : "7 FEATURED CASE STUDIES"}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F1F5F2] tracking-tight">
             {t(translations.projects.sectionTitle)}

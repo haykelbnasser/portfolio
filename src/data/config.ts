@@ -4,7 +4,7 @@
 
 export const siteConfig = {
   name: "Haykel Ben Nasser",
-  role: "Full-Stack Developer & IT Professional",
+  role: "Hybrid Developer & Problem Solver",
   tagline: "FULL-STACK DEVELOPMENT · DIGITAL SOLUTIONS · IT SYSTEMS",
   // ── Contact ─────────────────────────────────────────────
   email: "haykelbnasser@gmail.com",
@@ -20,7 +20,6 @@ export const siteConfig = {
       const isGhPages = window.location.pathname.startsWith("/portfolio");
       return isGhPages ? `/portfolio${cleanPath}` : cleanPath;
     }
-    // SSR / SSG build fallback
     const isGhActions = process.env.GITHUB_ACTIONS === "true";
     return isGhActions ? `/portfolio${cleanPath}` : cleanPath;
   },

@@ -208,7 +208,7 @@ export function Experience() {
         <div className="space-y-3 mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#111715] border border-[#26332C] text-xs font-mono text-[#61E6B5]">
             <Briefcase className="w-3.5 h-3.5" />
-            <span>CAREER PATH &amp; EDUCATION</span>
+            <span>{lang === "fr" ? "PARCOURS & FORMATION" : "CAREER PATH & EDUCATION"}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F1F5F2] tracking-tight">
             {t(translations.experience.sectionTitle)}

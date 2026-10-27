@@ -163,6 +163,24 @@ export function ProjectDetail({ project, onClose }: ProjectDetailProps) {
                   {t(project.caseStudy.evidence)}
                 </p>
               </div>
+
+              {/* Architecture & Modules */}
+              {project.caseStudy.architecture && (
+                <div className="bg-[#0B0F0E] p-4 rounded-xl border border-[#26332C]">
+                  <h4 className="text-xs font-mono uppercase tracking-wider text-[#61E6B5] mb-2 flex items-center gap-1.5">
+                    <Terminal className="w-3.5 h-3.5" />
+                    {lang === "fr" ? "Modules & Architecture Vérifiés" : "Verified Codebase Modules"}
+                  </h4>
+                  <ul className="space-y-1.5 font-mono text-xs text-[#A0ADA5]">
+                    {project.caseStudy.architecture.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <span className="text-[#61E6B5]">→</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-sm text-[#A0ADA5] py-4">

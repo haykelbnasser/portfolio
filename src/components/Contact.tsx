@@ -18,7 +18,7 @@ export function Contact() {
         <div className="max-w-3xl mx-auto text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#111715] border border-[#26332C] text-xs font-mono text-[#61E6B5]">
             <MessageSquareCode className="w-3.5 h-3.5" />
-            <span>CONNECT</span>
+            <span>{lang === "fr" ? "CONTACT" : "CONNECT"}</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#F1F5F2]">

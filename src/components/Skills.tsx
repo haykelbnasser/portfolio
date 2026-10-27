@@ -7,7 +7,7 @@ import { skillCategories } from "@/data/skills";
 import { Wrench, CheckCircle2, CircleDashed } from "lucide-react";
 
 export function Skills() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
 
   const getCategoryTitle = (id: string) => {
     const cats = translations.skills.categories;
@@ -29,7 +29,7 @@ export function Skills() {
         <div className="space-y-3 mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#111715] border border-[#26332C] text-xs font-mono text-[#61E6B5]">
             <Wrench className="w-3.5 h-3.5" />
-            <span>TECHNICAL PROFICIENCIES</span>
+            <span>{lang === "fr" ? "COMPÉTENCES TECHNIQUES" : "TECHNICAL PROFICIENCIES"}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F1F5F2] tracking-tight">
             {t(translations.skills.sectionTitle)}
@@ -50,7 +50,7 @@ export function Skills() {
                 <h3 className="text-sm font-mono font-semibold text-[#61E6B5] uppercase tracking-wider mb-4 pb-2 border-b border-[#26332C]/60 flex items-center justify-between">
                   <span>{getCategoryTitle(cat.id)}</span>
                   <span className="text-[11px] text-[#A0ADA5] font-normal">
-                    {cat.skills.length} tools
+                    {cat.skills.length} {lang === "fr" ? "outils" : "tools"}
                   </span>
                 </h3>
 

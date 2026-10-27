@@ -4,6 +4,7 @@ import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
 import { ExpertiseStrip } from "@/components/ExpertiseStrip";
 import { FeaturedProjects } from "@/components/FeaturedProjects";
+import { ItInfrastructure } from "@/components/ItInfrastructure";
 import { ArchiveProjects } from "@/components/ArchiveProjects";
 import { About } from "@/components/About";
 import { Skills } from "@/components/Skills";
@@ -19,6 +20,7 @@ export default function Home() {
         <Hero />
         <ExpertiseStrip />
         <FeaturedProjects />
+        <ItInfrastructure />
         <ArchiveProjects />
         <About />
         <Skills />
