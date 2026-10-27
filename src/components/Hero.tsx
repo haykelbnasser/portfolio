@@ -72,8 +72,10 @@ export function Hero() {
               {/* CV Downloads */}
               <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
                 <a
-                  href={lang === "fr" ? siteConfig.cvFr : siteConfig.cvEn}
-                  download
+                  href={siteConfig.getAssetPath(lang === "fr" ? `/cv/${siteConfig.cvFrFile}` : `/cv/${siteConfig.cvEnFile}`)}
+                  download={lang === "fr" ? siteConfig.cvFrFile : siteConfig.cvEnFile}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#26332C] bg-[#151D19] text-[#A0ADA5] hover:text-[#F1F5F2] hover:border-[#61E6B5] transition-all text-xs font-mono"
                   title="Download Resume / CV"
                 >

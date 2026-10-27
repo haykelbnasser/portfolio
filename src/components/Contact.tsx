@@ -99,8 +99,10 @@ export function Contact() {
           {/* CV Direct Download Pill row */}
           <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
             <a
-              href={siteConfig.cvEn}
-              download
+              href={siteConfig.getAssetPath(`/cv/${siteConfig.cvEnFile}`)}
+              download={siteConfig.cvEnFile}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#26332C] bg-[#111715] text-[#A0ADA5] hover:text-[#F1F5F2] hover:border-[#61E6B5] transition-all text-xs font-mono"
             >
               <Download className="w-3.5 h-3.5 text-[#61E6B5]" />
@@ -108,8 +110,10 @@ export function Contact() {
             </a>
 
             <a
-              href={siteConfig.cvFr}
-              download
+              href={siteConfig.getAssetPath(`/cv/${siteConfig.cvFrFile}`)}
+              download={siteConfig.cvFrFile}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#26332C] bg-[#111715] text-[#A0ADA5] hover:text-[#F1F5F2] hover:border-[#61E6B5] transition-all text-xs font-mono"
             >
               <Download className="w-3.5 h-3.5 text-[#61E6B5]" />
