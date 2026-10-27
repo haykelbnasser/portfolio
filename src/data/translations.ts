@@ -83,9 +83,9 @@ export const translations = {
     },
     languagesTitle: { en: "Languages",   fr: "Langues" },
     languages: [
-      { name: "Arabic",   level: { en: "Native",        fr: "Natif" } },
-      { name: "French",   level: { en: "Conversational (B1)", fr: "Conversationnel (B1)" } },
-      { name: "English",  level: { en: "Professional (B2)",   fr: "Professionnel (B2)" } },
+      { name: "Arabic / Arabe",    level: { en: "Native",                       fr: "Langue maternelle" } },
+      { name: "French / Français", level: { en: "Intermediate (B1)",            fr: "Intermédiaire (B1)" } },
+      { name: "English / Anglais", level: { en: "Upper-Intermediate (B2)",      fr: "Intermédiaire supérieur (B2)" } },
     ],
   },
   // ── Skills ────────────────────────────────────────────────

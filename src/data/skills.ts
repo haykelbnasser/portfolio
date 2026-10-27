@@ -78,7 +78,7 @@ export const skillCategories: SkillCategory[] = [
       { name: "Python Automation",     core: true  },
       { name: "Tesseract OCR",         core: true  },
       { name: "Git & GitHub",          core: true  },
-      { name: "Unity (Android)",       core: false },
+      { name: "Unity (Mobile / Escape Games)", core: true },
     ],
   },
 ];

@@ -79,7 +79,7 @@ export function About() {
               </div>
 
               {/* Education snippet */}
-              <div className="pt-4 border-t border-[#26332C] space-y-2">
+              <div className="pt-4 border-t border-[#26332C] space-y-2.5">
                 <div className="text-xs font-mono text-[#A0ADA5] uppercase tracking-wider">
                   Academic Foundation
                 </div>
@@ -87,9 +87,18 @@ export function About() {
                   <CheckCircle className="w-4 h-4 text-[#61E6B5] shrink-0 mt-0.5" />
                   <div>
                     <div className="text-sm font-semibold text-[#F1F5F2]">
-                      BTS Marketing &amp; Multimédia
+                      BTS – Marketing &amp; Multimédia
                     </div>
-                    <div className="text-xs text-[#A0ADA5] font-mono">2020 — 2022</div>
+                    <div className="text-xs text-[#A0ADA5] font-mono">CSFT – Tunis · 2020 — 2022</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle className="w-4 h-4 text-[#29C98C] shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-sm font-semibold text-[#F1F5F2]">
+                      Economics &amp; Management Diploma
+                    </div>
+                    <div className="text-xs text-[#A0ADA5] font-mono">Cité Khadra – Tunis · 2013 — 2018</div>
                   </div>
                 </div>
               </div>

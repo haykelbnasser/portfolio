@@ -470,6 +470,32 @@ export const projects: Project[] = [
     tech: ["Python", "Tesseract OCR", "Ollama", "Pandas", "openpyxl"],
     featured: false,
   },
+  {
+    id: "unity-escape-apps",
+    title: { en: "Escape Game & Event Dispatch Mobile Apps (P2, P5, P9)", fr: "Applications Mobiles Escape Game & Gestion Participants (P2, P5, P9)" },
+    description: {
+      en: "Mobile applications developed using Unity (P2, P5, P9) serving as interactive clues in escape game activities, alongside a mobile app for participant dispatching and activity management during events.",
+      fr: "Applications mobiles développées avec Unity (P2, P5, P9) utilisées comme indices interactifs dans l'activité Escape Game, ainsi qu'une application mobile de répartition et gestion des participants lors des événements.",
+    },
+    category: { en: "Mobile & Game Development", fr: "Développement Mobile & Unity" },
+    type: "internal",
+    status: "professional",
+    tech: ["Unity", "C#", "Android", "Mobile UI"],
+    featured: false,
+  },
+  {
+    id: "art-et-couleurs-apps",
+    title: { en: "Quotation, Production & Maintenance Systems", fr: "Systèmes de Devis, Production & Maintenance" },
+    description: {
+      en: "Internal web applications built at Art & Couleurs for quotation management, operational production tracking, and machine/vehicle maintenance scheduling.",
+      fr: "Applications web internes développées chez Art & Couleurs pour la gestion des devis, le suivi de la production opérationnelle et la maintenance des machines et véhicules.",
+    },
+    category: { en: "Internal Business Tools", fr: "Outils Métier Internes" },
+    type: "internal",
+    status: "professional",
+    tech: ["PHP", "MySQL", "JavaScript", "HTML/CSS"],
+    featured: false,
+  },
 ];
 
 export const featuredProjects = projects.filter(p => p.featured && (p.order ?? 99) <= 7).sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
