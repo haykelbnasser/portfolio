@@ -4,7 +4,7 @@ import React from "react";
 import { useLang } from "@/components/LanguageProvider";
 import { translations } from "@/data/translations";
 import { siteConfig } from "@/data/config";
-import { Mail, Download, Info, MessageSquareCode, Globe2, Code } from "lucide-react";
+import { Mail, Download, MessageSquareCode, Globe2, Code } from "lucide-react";
 
 export function Contact() {
   const { lang, t } = useLang();
@@ -119,12 +119,6 @@ export function Contact() {
               <Download className="w-3.5 h-3.5 text-[#61E6B5]" />
               <span>{t(translations.contact.cvFr)}</span>
             </a>
-          </div>
-
-          {/* Config advisory note */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#111715]/70 border border-[#26332C] text-[11px] font-mono text-[#A0ADA5]">
-            <Info className="w-3.5 h-3.5 text-[#61E6B5]" />
-            <span>{t(translations.contact.note)}</span>
           </div>
         </div>
       </div>
